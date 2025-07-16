@@ -5,7 +5,7 @@ from aiogram import BaseMiddleware, Bot, Dispatcher
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
-from core.bridge import send_update
+from core.bridge import Bridge
 
 config = dotenv_values(".env")
 
@@ -19,6 +19,7 @@ dp = Dispatcher()
 
 class GoMiddleware(BaseMiddleware):
     def __init__(self) -> None:
+        self.bridge = Bridge()
         self.counter = 0
 
     async def __call__(
@@ -27,8 +28,10 @@ class GoMiddleware(BaseMiddleware):
         event: Message,  # type: ignore
         data: Dict[str, Any],
     ) -> Any:
-        if send_update(event.model_dump_json()):
+        if self.bridge.send_rpc("App.ProcessUpdates", event.model_dump_json()):
+            print("processing...")
             return await handler(event, data)
+        print("Skipped update due to Goland said no")
 
 
 dp.message.middleware(GoMiddleware())

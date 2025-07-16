@@ -15,11 +15,12 @@ func (s *App) Test(name string, r *string) error {
 	return nil
 }
 
-func (s *App) ProcessUpdates(object any, r *string) error {
+func (s *App) ProcessUpdates(object any, r *bool) error {
 	// bool will control if python side should process the message
 
 	fmt.Println(object)
-	*r = fmt.Sprintf("Got this piece of shit: %s", object)
+	// *r = fmt.Sprintf("Got this piece of shit: %s", object)
+	*r = true
 	return nil
 }
 
