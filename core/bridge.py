@@ -1,6 +1,6 @@
 from typing import Any
 from aiogram.types import Message
-from pygoridge import create_relay, RPC, SocketRelay
+from pygoridge import create_relay, RPC, SocketRelay  # type: ignore
 
 
 class Bridge:
